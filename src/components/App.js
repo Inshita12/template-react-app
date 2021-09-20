@@ -1,9 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { BrowserRouter as Router, Link, Route } from "react-router-dom";
 import PropTypes from "prop-types";
 import { fetchPosts } from "../actions/posts";
-import { PostLists } from "./";
+import { PostLists, Navbar } from "./";
 import "../index.scss";
+
+const Login = () => <div>Login</div>;
+const Signup = () => <div>Signup</div>;
+const Home = () => <div>Home</div>;
 class App extends React.Component {
   componentDidMount() {
     this.props.dispatch(fetchPosts());
@@ -12,60 +17,28 @@ class App extends React.Component {
   render() {
     const { posts } = this.props;
     return (
-      <div>
-        <nav className="nav">
-          <div className="left-div">
-            <img
-              src="https://ninjasfiles.s3.amazonaws.com/0000000000003454.png"
-              alt="logo"
-            ></img>
-          </div>
-          <div className="search-container">
-            <img
-              className="search-icon"
-              src="https://image.flaticon.com/icons/svg/483/483356.svg"
-              alt="search"
-            />
-            <input placeholder="Search" />
-            <div className="search-results">
-              <ul>
-                <li className="serach-results-row">
-                  <img
-                    src="https://image.flaticon.com/icons/svg/2154/2154651.svg"
-                    alt="user-dp"
-                  />
-                  <span>Inshita</span>
-                </li>
-                <li className="serach-results-row">
-                  <img
-                    src="https://image.flaticon.com/icons/svg/2154/2154651.svg"
-                    alt="user-dp"
-                  />
-                  <span>Inshita</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div className="right-nav">
-            <div className="user">
-              <img
-                src="https://image.flaticon.com/icons/svg/2154/2154651.svg"
-                alt="user-dp"
-                id="user-dp"
-              />
-              <span>Inshita</span>
-            </div>
-            <nav className="nav-links">
-              <ul>
-                <li>Login</li>
-                <li>Logout</li>
-                <li>Register</li>
-              </ul>
-            </nav>
-          </div>
-        </nav>
-        <PostLists posts={posts} />
-      </div>
+      <Router>
+        <div>
+          <Navbar />
+          {/* <PostLists posts={posts} /> */}
+           <ul>
+             <li>
+               <Link to="/">Home</Link>  
+               {/* //Link not anchortag bcs anchor reload the page and Link tag works internally */}
+             </li>
+             <li>
+               <Link to="/login">Login</Link>  
+             </li>
+             <li>
+               <Link to="/signup">Signup</Link>  
+             </li>
+             </ul>
+          <Route exact path="/" component={Home} />
+          {/* {/* //if path is this show home component.. * and exact means /signup only signup will show not home/ */}
+          <Route path="/login" component={Login} />
+          <Route path="/signup" component={Signup} />
+        </div>
+      </Router>
     );
   }
 }
