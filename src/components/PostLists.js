@@ -3,11 +3,13 @@ import PropTypes  from "prop-types";
 
 class PostLists extends Component {
   render() {
+    // console.log("props+++++++",this.props.posts[0]);
     const { posts } = this.props;
     console.log(posts);
     return (
       <div className="posts-list">
         {posts.map((post) => (
+        
           <div className="post-wrapper" key={post.id}>
             <pre>{post}</pre>
             <div className="post-header">
@@ -29,7 +31,7 @@ class PostLists extends Component {
                   src="https://www.flaticon.com/free-icon/like_126473?term=like&page=1&position=13&page=1&position=13&related_id=126473&origin=search"
                   alt="likes-icon"
                 />
-                <span>{post.likes.length}</span>
+                {/* <span>{post.like.length}</span> */}
 
                 <div
                   className="post-comments-icon"
@@ -37,7 +39,7 @@ class PostLists extends Component {
                   src="https://www.flaticon.com/free-icon/chat_134783?term=comment&page=1&position=25&page=1&position=25&related_id=134783&origin=search"
                   alt="comments-icon"
                 />
-                <span>{post.comments.length}</span>
+                {/* <span>{post.comments.length}</span> */}
               </div>
               <div className="post-comment-box">
                 <input placeholder="Start typing a comment" />
