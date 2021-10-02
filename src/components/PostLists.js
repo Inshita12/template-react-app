@@ -11,11 +11,10 @@ class PostLists extends Component {
         {posts.map((post) => (
         
           <div className="post-wrapper" key={post.id}>
-            <pre>{post}</pre>
             <div className="post-header">
               <div className="post-avatar">
                 <img
-                  src="https://www.flaticon.com/free-icon/user_456212?related_id=456212"
+                  src={"http://13.233.236.31"+post.user.avatar}
                   alt="user-pic"
                 />
                 <div>
@@ -24,6 +23,9 @@ class PostLists extends Component {
                 </div>
               </div>
               <div className="post-content">{post.content}</div>
+              <div className="post-image">
+                <img src={"http://13.233.236.31"+post.postImage} alt=""/>
+              </div>
               <div className="post-actions">
                 <div
                   className="post-like"
