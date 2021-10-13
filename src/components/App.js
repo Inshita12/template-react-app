@@ -6,10 +6,22 @@ import PropTypes from "prop-types";
 import { fetchPosts } from "../actions/posts";
 import { Home, Navbar, Page404,Login ,Signup} from "./";
 import "../index.scss";
+import * as jwtDecode from 'jwt-token';
+import { authenticateUser } from "../actions/auth";
 
 class App extends React.Component {
   componentDidMount() {
     this.props.dispatch(fetchPosts());
+    const token=localStorage.getItem('token');
+    if(token){
+      const user=jwtDecode(token);//token is encrypted for decryption use package npm install jwt-token
+      console.log('user',user);
+      this.props.dispatch(authenticateUser({
+        email:user.email,
+        id:user._id,
+        name:user.name
+      }))
+    }
   }
 
   render() {
