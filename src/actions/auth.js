@@ -1,15 +1,67 @@
-import { LOGIN_FAILED, LOGIN_START, LOGIN_SUCCESS } from "./actionTypes";
+import {
+  LOGIN_FAILED,
+  LOGIN_START,
+  LOGIN_SUCCESS,
+  AUTHENTICATE_USER,
+  SIGNUP_START,
+  SIGNUP_FAILED,
+  SIGNUP_SUCCESS,
+  LOG_OUT,
+} from "./actionTypes";
 import { APIUrls } from "../Extra/urls";
 import { getFormBody } from "../Extra/function";
-export function StartLogIn(){
-  return{
-    type:LOGIN_START
-  }
+
+export function signup(email, password, name, cpassword) {
+  return (dispatch) => {
+    const url = APIUrls.signup();
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: getFormBody({ email, password, name, cpassword }),
+    })
+      //fetch will give promise
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("data", data);
+        if (data.success) {
+          //dispatch action to save user
+          localStorage.setItem("token", data.data.token);
+          dispatch(signupSuccess(data.data.user));
+          return;
+        } else {
+          dispatch(signupFailed(data.message));
+        }
+      });
+  };
+}
+export function startSignup() {
+  return {
+    type: SIGNUP_START,
+  };
+}
+export function signupFailed(error) {
+  return {
+    type: SIGNUP_FAILED,
+    error: error,
+  };
+}
+export function signupSuccess(user) {
+  return {
+    type: SIGNUP_SUCCESS,
+    user,
+  };
+}
+export function StartLogIn() {
+  return {
+    type: LOGIN_START,
+  };
 }
 export function loginFailed(errorMessage) {
   return {
     type: LOGIN_FAILED,
-    error:errorMessage,
+    error: errorMessage,
   };
 }
 export function loginSuccess(user) {
@@ -20,7 +72,7 @@ export function loginSuccess(user) {
 }
 export function login(email, password) {
   return (dispatch) => {
-    dispatch(StartLogIn())
+    dispatch(StartLogIn());
     //its an asychronous thunk redux so it will return a function
     //sending request tp server when user login
     const url = APIUrls.login();
@@ -35,14 +87,26 @@ export function login(email, password) {
       .then((response) => response.json())
       .then((data) => {
         console.log("data", data);
-        if(data.success){
+        if (data.success) {
           //dispatch action to save user
-        //  dispatch( loginSuccess());
+          localStorage.setItem("token", data.data.token);
+          dispatch(loginSuccess(data.data.user));
           return;
-        }
-        else{
+        } else {
           dispatch(loginFailed(data.message));
         }
       });
+  };
+}
+export function authenticateUser(user) {
+  return {
+    type: AUTHENTICATE_USER,
+    user,
+  };
+}
+export function logoutUser(user) {
+  return {
+    type: LOG_OUT,
+    user,
   };
 }

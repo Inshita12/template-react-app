@@ -8,7 +8,6 @@ export function fetchPosts() {
         return response.json();
       })
       .then((data) => {
-        console.log("Inshita");
         dispatch(updatePosts(data.posts));
       });
   };

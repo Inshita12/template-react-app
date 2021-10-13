@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { login } from "../actions/auth";
+import { login, StartLogIn } from "../actions/auth";
 //Handling Uncontrolled forms
 // class Login extends Component {
 //     constructor(props){
@@ -62,7 +62,9 @@ class Login extends Component {
     // console.log("this.passwordInputRef", this.passwordInputRef);
     console.log("this.state", this.state);
     const { email, password } = this.state;
-    if (email && password) {
+    if (email && password) {      
+      this.props.dispatch(StartLogIn());
+
       this.props.dispatch(login(email, password));
     }
   };
